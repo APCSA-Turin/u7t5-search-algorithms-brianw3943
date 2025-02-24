@@ -29,6 +29,7 @@ public class RepairSchedule {
                 return false;
             }
         }
+        schedule.add(new CarRepair(m, b));
         return true;
     }
 
@@ -36,14 +37,20 @@ public class RepairSchedule {
      * as described in part (b).
      */
     public ArrayList<Integer> availableMechanics() {
+        ArrayList<Integer> available = new ArrayList<>();
         for (int i = 0; i < numberOfMechanics; i++) {
-            for (int j = 0; j < schedule.size(); j++) {
-                if (schedule.get(j).getMechanicNum() == i || schedule.get(i).getBayNum() == i) {
-                    
+            boolean isAvailable = true;
+            for (CarRepair repair : schedule) {
+                if (repair.getMechanicNum() == i) {
+                    isAvailable = false;
+                    break;
                 }
             }
+            if (isAvailable) {
+                available.add(i);
+            }
         }
-        return new ArrayList<Integer>();
+        return available;
     }
 
     /** Removes an element from schedule when a repair is complete.
